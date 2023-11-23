@@ -9,12 +9,9 @@ function Node(data = null, left = null, right = null) {
 };
 
 export function buildTree(array, filteredArray = MergeSort(array), start = 0, end = filteredArray.length - 1) { 
-    if(start > end){
-
-        return null;
-    };    
+    if(start > end) return null; 
    
-    const mid = Math.parseInt((start + end) / 2);
+    const mid = Math.floor((start + end) / 2);
     const root = Node(filteredArray[mid]);
   
     
@@ -47,5 +44,6 @@ export default class Tree {
     get root() {
       return this.#root;
     };
+
 }
 
