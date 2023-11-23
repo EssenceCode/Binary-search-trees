@@ -34,22 +34,22 @@ export default class Tree {
 
     insert(value, binaryRoot = this.#root) {
       const binaryTree = binaryRoot;
-      const leftIsEqualsToNullAndDataIsLessThanData = binaryRoot.left === null && binaryRoot.data > value;
-      const rightIsEqualsToNullAndDataIsGreaterThanData = binaryRoot.right === null && binaryRoot.data < value;
+      const leftIsEqualsToNullAndDataIsGreaterThanValue = binaryRoot.left === null && binaryRoot.data > value;
+      const rightIsEqualsToNullAndDataIsLessThanValue = binaryRoot.right === null && binaryRoot.data < value;
      
       if(binaryRoot.data === value) {
         alert("value already existed.")
-        
+
         return false
       };  
       
-      if(leftIsEqualsToNullAndDataIsLessThanData) {       
+      if(leftIsEqualsToNullAndDataIsGreaterThanValue) {       
         binaryTree.left = Node(value);
 
         return true;
       };
 
-      if(rightIsEqualsToNullAndDataIsGreaterThanData) {
+      if(rightIsEqualsToNullAndDataIsLessThanValue) {
         binaryTree.right = Node(value);
 
         return true;
