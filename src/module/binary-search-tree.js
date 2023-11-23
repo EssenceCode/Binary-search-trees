@@ -21,19 +21,6 @@ export function buildTree(array, filteredSortedArray = MergeSort(array), start =
     return root;
 };
 
-export const prettyPrint = (node, prefix = "", isLeft = true) => {
-    if (node === null) {
-      return;
-    }
-    if (node.right !== null) {
-      prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
-    }
-    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-    if (node.left !== null) {
-      prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
-    }
-  };
-
 export default class Tree {
     #root;
 
@@ -45,5 +32,44 @@ export default class Tree {
       return this.#root;
     };
 
-}
+    insert(value, binaryRoot = this.#root) {
+      const binaryTree = binaryRoot;
+      const leftIsEqualsToNullAndDataIsLessThanData = binaryRoot.left === null && binaryRoot.data > value;
+      const rightIsEqualsToNullAndDataIsGreaterThanData = binaryRoot.right === null && binaryRoot.data < value;
+     
+      if(binaryRoot.data === value) {
+        alert("value already existed.")
+        
+        return false
+      };  
+      
+      if(leftIsEqualsToNullAndDataIsLessThanData) {       
+        binaryTree.left = Node(value);
+
+        return true;
+      };
+
+      if(rightIsEqualsToNullAndDataIsGreaterThanData) {
+        binaryTree.right = Node(value);
+
+        return true;
+      };
+
+      if(binaryRoot.data) {
+        
+        if(binaryRoot.data > value) {
+        
+          return this.insert(value, binaryTree.left)
+        };
+  
+        if(binaryRoot.data < value) {
+  
+          return this.insert(value, binaryTree.right)
+        };
+      };
+      
+      return binaryTree
+    };
+
+};
 
