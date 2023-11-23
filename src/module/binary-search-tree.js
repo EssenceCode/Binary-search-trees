@@ -8,15 +8,15 @@ function Node(data = null, left = null, right = null) {
     };
 };
 
-export function buildTree(array, filteredArray = MergeSort(array), start = 0, end = filteredArray.length - 1) { 
+export function buildTree(array, filteredSortedArray = MergeSort(array), start = 0, end = filteredSortedArray.length - 1) { 
     if(start > end) return null; 
    
     const mid = Math.floor((start + end) / 2);
-    const root = Node(filteredArray[mid]);
+    const root = Node(filteredSortedArray[mid]);
   
     
-    root.left = buildTree(array, filteredArray, start, mid - 1);
-    root.right = buildTree(array, filteredArray, mid + 1, end);
+    root.left = buildTree(array, filteredSortedArray, start, mid - 1);
+    root.right = buildTree(array, filteredSortedArray, mid + 1, end);
 
     return root;
 };
