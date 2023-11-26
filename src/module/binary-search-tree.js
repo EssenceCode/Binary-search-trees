@@ -35,12 +35,9 @@ export default class Tree {
 
     insert(value, binaryRoot = this.#root) {
       const node = binaryRoot;
-     
-      if(binaryRoot.data === value) {
-        
-        return false;
-      };  
-      
+
+      if(binaryRoot.data !== value) {
+
       if(binaryRoot.left === null && binaryRoot.data > value) {       
         node.left = Node(value);
 
@@ -52,6 +49,7 @@ export default class Tree {
 
         return true;
       };
+      }
 
       if(binaryRoot.data > value) {
         
@@ -62,8 +60,10 @@ export default class Tree {
   
         return this.insert(value, node.right);
       };
-      
-      return node
+
+      console.log(`${value} already exist in the tree`)
+
+      return false
     };
 
     remove(value, binaryRoot = this.#root) {
