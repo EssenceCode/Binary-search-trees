@@ -68,71 +68,88 @@ export default class Tree {
 
     remove(value, binaryRoot = this.#root) {
       const node = binaryRoot;
-      
-      if(binaryRoot !== null) {
-      // if there is no children, means a leaf node 
+    
+      if(binaryRoot !== null && binaryRoot.data === value) {
+        // if the given value is a leaf node
         if(binaryRoot.left === null && binaryRoot.right === null) {
           node.data = null;
-  
+
           return true;
         };
-      // if if there is only children in the left subtree
-        if(binaryRoot.left === null && binaryRoot.data === value) {
+        // if the given values right subtree is null
+        if(binaryRoot.right === null) {
+          // if the node's left subtrees left are not null
+          // point it to as the new node's left
+          if(node.left !== null) {
+            node.data = node.left.data;
+            node.left = node.left.left
+            // console.log("foo")
+            return true;
+          };
+
+          node.data = node.left.data;
+          node.left = null
+          // console.log("bar")
+          return true;
+        };
+        // right subtree
+        if(binaryRoot.left === null) {
+          if(node.right !== null) {
+            node.data = node.right.data;
+            node.right = node.right.right;
+            // console.log("fizz");
+            return true;
+          };
+
           node.data = node.right.data;
           node.right = null;
-  
+          // console.log("buzz");
           return true;
         };
-      // if if there is only children in the right subtree
-        if(binaryRoot.right === null && binaryRoot.data === value) {
-          node.data = node.left.data;
-          node.left = null;
-          // console.log(node)
-  
-          return true;
-        };
-        // if there are two children
-        if(binaryRoot.left !== null && binaryRoot.right !== null && binaryRoot.data === value) {
+        // both subtree are not null
+        if(binaryRoot.left !== null && binaryRoot.right !== null) {
           let predecessor = node;
           let successor = node.right;
-  
+
           while(successor.left !== null) {
-            
+            console.log("predecessor", predecessor);
+            console.log("successor", successor);
+
             predecessor = successor;
             successor = successor.left;
           };
           if(predecessor !== node) {
-  
+            console.log("yahallo")
+         
             predecessor.left = successor.right;
+            node.data = successor.data;
+
+            return true;
           };
-  
-          predecessor.right = successor.left;
-  
+       
+          predecessor.right = successor.right;
           node.data = successor.data;
-  
-          return node
+
+          return true
         };
-        // recursion
+
+      };
+
+      // recursion to traverse the tree till we reach the given value;
+      if(binaryRoot !== null) {
         if(binaryRoot.data > value) {
 
           return this.remove(value, node.left);
         };
   
         if(binaryRoot.data < value) {
-          
+  
           return this.remove(value, node.right);
-        };
-
-        return true;
+        }
       };
-
-     if(binaryRoot === null) {
-      console.log("value does not exist")
-      return false
-     };
       
-     
-      return node;
-    }
-};
+      console.log(`${value} does not exist in the tree.`)
+      return false
+    };
+}
 
