@@ -280,7 +280,7 @@ export default class Tree {
       };
       
       const current = queue[0];
-      console.log(current)
+      
       array.push(current.data)
 
       if(current.left !== null) {
@@ -302,5 +302,6 @@ export default class Tree {
 
       return array
     };
+    
 };
 
