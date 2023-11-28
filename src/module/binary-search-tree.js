@@ -33,6 +33,19 @@ export default class Tree {
       return this.#root;
     };
 
+    prettyPrint(node, prefix = "", isLeft = true){
+      if (this.node === null) {
+        return;
+      }
+      if (node.right !== null) {
+        this.prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+      }
+      console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+      if (node.left !== null) {
+        this.prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+      }
+    };
+
     insert(value, binaryRoot = this.#root) {
       const node = binaryRoot;
 
@@ -151,5 +164,143 @@ export default class Tree {
       console.log(`${value} does not exist in the tree.`)
       return false
     };
-}
+
+    find(value, binaryRoot = this.#root) {
+      // if root.data is equals to the given value; return node;
+      const node = binaryRoot;
+      if(binaryRoot === null) {
+        console.log("value does not exist")
+        return false
+      };
+
+      if(binaryRoot.data === value) {
+
+        return node;
+      };
+      // recursively call the function to traverse the tree
+      // to find the given value
+      // if root.data is greater than the value
+      // traverse the left subtree
+      if(binaryRoot.data > value) {
+
+        return this.find(value, node.left);
+      };
+
+      if(binaryRoot.data < value) {
+
+        return this.find(value, node.right)
+      };
+
+      return node;
+    };
+
+    levelOrderIteration(callback, binaryRoot = this.#root) {
+      if(binaryRoot === null) return null;
+
+      if(typeof callback === "function") {
+        const queue = [];
+        // let array = [];
+        queue.push(binaryRoot);
+
+        while(queue.length) {
+          const current = queue[0];
+          // array = array.concat(callback(current.data));
+          callback(current.data)
+
+          if(current.left !== null) {
+
+            queue.push(current.left);
+          };
+
+          if(current.right !== null) {
+            
+            queue.push(current.right);
+          };
+
+          queue.shift()
+        };
+        // return array
+        return true;
+      };
+
+      const queue = [];
+      const array = [];
+
+      queue.push(binaryRoot);
+
+      while(queue.length) {
+        const current = queue[0];
+
+        array.push(current.data);
+
+        if(current.left !== null) {
+
+          queue.push(current.left);
+        };
+
+        if(current.right !== null) {
+
+          queue.push(current.right);
+        };
+
+        queue.shift();
+      };
+
+
+      return array;
+    };
+
+    levelOrderRecursion(callback, queue = [this.#root], array = []) {
+      if(queue === null) return null;
+
+      if(typeof callback === "function") {
+
+        const current = queue[0];
+        callback(current.data)
+
+        if(current.left !== null) {
+
+          queue.push(current.left);
+        };
+
+        if(current.right !== null) {
+
+          queue.push(current.right);
+        };
+        
+        queue.shift()
+
+
+        if(queue.length) {
+          
+          return this.levelOrderRecursion(callback, queue, array);
+        }; 
+
+        return true;
+      };
+      
+      const current = queue[0];
+      console.log(current)
+      array.push(current.data)
+
+      if(current.left !== null) {
+
+        queue.push(current.left);
+      };
+
+      if(current.right !== null) {
+
+        queue.push(current.right);
+      };
+
+      queue.shift();
+
+      if(queue.length) {
+
+        return this.levelOrderRecursion(callback, queue, array);
+      }; 
+
+      return array
+    };
+};
 
