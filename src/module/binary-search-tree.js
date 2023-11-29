@@ -194,6 +194,66 @@ export default class Tree {
       return node;
     };
 
+    levelOrder(callback, queue = [this.#root], array = []) {
+      if(queue === null) return null;
+
+      if(typeof callback === "function") {
+
+        const current = queue[0];
+        
+        callback(current)
+
+        // array.push(callback(current))
+
+
+        if(current.left !== null) {
+
+          queue.push(current.left);
+        };
+
+        if(current.right !== null) {
+
+          queue.push(current.right);
+        };
+        
+        queue.shift();
+
+        if(queue.length) {
+          
+          return this.levelOrder(callback, queue, array);
+        }; 
+
+        // return array;
+
+        return true;
+      };
+      
+      const current = queue[0];
+
+      console.log(current);
+      
+      array.push(current.data);
+
+      if(current.left !== null) {
+
+        queue.push(current.left);
+      };
+
+      if(current.right !== null) {
+
+        queue.push(current.right);
+      };
+
+      queue.shift();
+
+      if(queue.length) {
+        
+        return this.levelOrder(callback, queue, array);
+      }; 
+
+      return array;
+    };
+
     levelOrderIteration(callback, binaryRoot = this.#root) {
       if(binaryRoot === null) return null;
 
@@ -250,58 +310,97 @@ export default class Tree {
       return array;
     };
 
-    levelOrderRecursion(callback, queue = [this.#root], array = []) {
-      if(queue === null) return null;
-
+    inOrder(callback, binaryRoot =this.#root, array = []) {
       if(typeof callback === "function") {
+        if(binaryRoot === null) {
 
-        const current = queue[0];
-        callback(current.data)
-
-        if(current.left !== null) {
-
-          queue.push(current.left);
+          return binaryRoot;
         };
 
-        if(current.right !== null) {
+        this.inOrder(callback, binaryRoot.left, array);
 
-          queue.push(current.right);
-        };
+        callback(binaryRoot);
         
-        queue.shift()
-
-
-        if(queue.length) {
-          
-          return this.levelOrderRecursion(callback, queue, array);
-        }; 
+        this.inOrder(callback, binaryRoot.right, array);
 
         return true;
       };
+
       
-      const current = queue[0];
+      if(binaryRoot === null) {
+        
+        return binaryRoot
+      };
       
-      array.push(current.data)
+      this.inOrder(callback, binaryRoot.left, array);
+    
+      array.push(binaryRoot.data)
 
-      if(current.left !== null) {
+      this.inOrder(callback, binaryRoot.right, array);
 
-        queue.push(current.left);
-      };
-
-      if(current.right !== null) {
-
-        queue.push(current.right);
-      };
-
-      queue.shift();
-
-      if(queue.length) {
-
-        return this.levelOrderRecursion(callback, queue, array);
-      }; 
 
       return array
     };
+
+    preOrder(callback, binaryRoot = this.#root, array = []) {
+      if(typeof callback === "function") {
+        if(binaryRoot === null) {
+
+          return binaryRoot;
+        };
+
+        callback(binaryRoot);
+
+        this.preOrder(callback, binaryRoot.left, array);
+        this.preOrder(callback, binaryRoot.right, array);
+
+        return true;
+      };
+
+      if(binaryRoot === null) {
+     
+        return binaryRoot;
+      };
+
+      console.log(binaryRoot)
+
+      array.push(binaryRoot.data);
+
+      this.preOrder(callback, binaryRoot.left, array);
+      this.preOrder(callback, binaryRoot.right, array);
+
+      return array;
+    };
+
+    postOrder(callback, binaryRoot = this.#root, array = []) {
+      if(typeof callback === "function") {
+        if(binaryRoot === null) {
+
+          return binaryRoot;
+        };
+
+        this.postOrder(callback, binaryRoot.left, array);
+        this.postOrder(callback, binaryRoot.right, array);
+
+        callback(binaryRoot);
+
+        return true
+      };
+
+      if(binaryRoot === null) {
+
+        return binaryRoot;
+      };
+
+      this.postOrder(callback, binaryRoot.left, array);
+      this.postOrder(callback, binaryRoot.right, array);
+
+      console.log(binaryRoot)
+      array.push(binaryRoot.data);
+
+      return array;
+    };
+
     
 };
 
