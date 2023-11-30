@@ -165,8 +165,7 @@ export default class Tree {
 
     find(value, queue = [  this.#root ]) {
       const current = queue[0];
-      console.log(current)
-
+    
       if(value === current.data) {
 
         return current;
@@ -411,7 +410,24 @@ export default class Tree {
       return findMax
     };
 
-    
+    depth(node, binaryRoot = this.#root) {
+      if(binaryRoot === node) {
+
+        return 0;
+      };
+
+      if(binaryRoot === null) {
+
+        return - 1;
+      };
+
+      console.log(binaryRoot)
+      const left = this.depth(node, binaryRoot.left);
+      const right = this.depth(node, binaryRoot.right);
+
+     
+     return Math.max(left, right) + 1
+    };
  
 };
 
