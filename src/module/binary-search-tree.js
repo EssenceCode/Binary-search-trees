@@ -96,13 +96,13 @@ export default class Tree {
           if(node.left !== null) {
             node.data = node.left.data;
             node.left = node.left.left
-            // console.log("foo")
+            
             return true;
           };
 
           node.data = node.left.data;
           node.left = null
-          // console.log("bar")
+          
           return true;
         };
         // right subtree
@@ -110,13 +110,13 @@ export default class Tree {
           if(node.right !== null) {
             node.data = node.right.data;
             node.right = node.right.right;
-            // console.log("fizz");
+    
             return true;
           };
 
           node.data = node.right.data;
           node.right = null;
-          // console.log("buzz");
+     
           return true;
         };
         // both subtree are not null
@@ -125,14 +125,12 @@ export default class Tree {
           let successor = node.right;
 
           while(successor.left !== null) {
-            console.log("predecessor", predecessor);
-            console.log("successor", successor);
-
+      
             predecessor = successor;
             successor = successor.left;
           };
           if(predecessor !== node) {
-            console.log("yahallo")
+         
          
             predecessor.left = successor.right;
             node.data = successor.data;
@@ -170,7 +168,7 @@ export default class Tree {
       const node = binaryRoot;
       if(binaryRoot === null) {
         console.log("value does not exist")
-        return false
+        return null
       };
 
       if(binaryRoot.data === value) {
@@ -195,8 +193,6 @@ export default class Tree {
     };
 
     levelOrder(callback, queue = [this.#root], array = []) {
-      if(queue === null) return null;
-
       if(typeof callback === "function") {
 
         const current = queue[0];
@@ -361,9 +357,7 @@ export default class Tree {
      
         return binaryRoot;
       };
-
-      console.log(binaryRoot)
-
+      
       array.push(binaryRoot.data);
 
       this.preOrder(callback, binaryRoot.left, array);
@@ -395,12 +389,31 @@ export default class Tree {
       this.postOrder(callback, binaryRoot.left, array);
       this.postOrder(callback, binaryRoot.right, array);
 
-      console.log(binaryRoot)
+     
       array.push(binaryRoot.data);
 
       return array;
     };
 
+    height(node) {
+      if(node === null) {
+        
+        return - 1;
+      };
+      
+      const left = this.height(node.left);
+      const right = this.height(node.right);
+      
+      console.log("node", node)
+      console.log("left ",left);
+      console.log("right ",right);
+
+      const findMax = Math.max(left, right) + 1;
+     
+      return findMax
+    };
+
     
+ 
 };
 
