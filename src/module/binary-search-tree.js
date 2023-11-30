@@ -163,33 +163,33 @@ export default class Tree {
       return false
     };
 
-    find(value, binaryRoot = this.#root) {
-      // if root.data is equals to the given value; return node;
-      const node = binaryRoot;
-      if(binaryRoot === null) {
-        console.log("value does not exist")
-        return null
+    find(value, queue = [  this.#root ]) {
+      const current = queue[0];
+      console.log(current)
+
+      if(value === current.data) {
+
+        return current;
       };
 
-      if(binaryRoot.data === value) {
+      if(current.left !== null) {
 
-        return node;
-      };
-      // recursively call the function to traverse the tree
-      // to find the given value
-      // if root.data is greater than the value
-      // traverse the left subtree
-      if(binaryRoot.data > value) {
-
-        return this.find(value, node.left);
+        queue.push(current.left);
       };
 
-      if(binaryRoot.data < value) {
+      if(current.right !== null) {
 
-        return this.find(value, node.right)
+        queue.push(current.right);
       };
 
-      return node;
+      queue.shift();
+
+      if(queue.length) {
+
+        return this.find(value, queue);
+      };
+
+      return current;
     };
 
     levelOrder(callback, queue = [this.#root], array = []) {
@@ -225,8 +225,6 @@ export default class Tree {
       };
       
       const current = queue[0];
-
-      console.log(current);
       
       array.push(current.data);
 
