@@ -167,9 +167,10 @@ export default class Tree {
       const current = queue[0];
     
       if(value === current.data) {
-
+        // console.log("hello")
         return current;
       };
+
 
       if(current.left !== null) {
 
@@ -182,6 +183,11 @@ export default class Tree {
       };
 
       queue.shift();
+
+      if(queue.length === 0 && value !== current.data) {
+        console.log("value does not exist")
+        return false
+      }
 
       if(queue.length) {
 
@@ -400,34 +406,32 @@ export default class Tree {
       
       const left = this.height(node.left);
       const right = this.height(node.right);
-      
-      console.log("node", node)
-      console.log("left ",left);
-      console.log("right ",right);
 
-      const findMax = Math.max(left, right) + 1;
-     
-      return findMax
+      const calcHeight = Math.max(left, right) + 1;
+
+      return calcHeight;
     };
 
-    depth(node, binaryRoot = this.#root) {
-      if(binaryRoot === node) {
-
-        return 0;
+    // the depth of the given node is just the number of recursion it took to get there.
+    depth(node, root = this.#root, maxDepth = 0) {
+      if(root === null) {
+        
+        return null;
       };
-
-      if(binaryRoot === null) {
-
-        return - 1;
-      };
-
-      console.log(binaryRoot)
-      const left = this.depth(node, binaryRoot.left);
-      const right = this.depth(node, binaryRoot.right);
-
      
-     return Math.max(left, right) + 1
-    };
- 
+      if(node === root) {
+        // console.log(`depth of ${root.data} is ${maxDepth}`)
+
+        return maxDepth;
+      };
+      // console.log(`depth of ${root.data} is ${maxDepth}`)
+
+      const left = this.depth(node, root.left, maxDepth + 1)
+      const right = this.depth(node, root.right, maxDepth + 1)
+
+      const calcDepth = Math.max(left, right);
+    
+      return calcDepth;
+    }
 };
 
