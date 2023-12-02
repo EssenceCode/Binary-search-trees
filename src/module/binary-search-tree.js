@@ -46,30 +46,30 @@ export default class Tree {
       }
     };
 
-    insert(value, binaryRoot = this.#root) {
-      const node = binaryRoot;
+    insert(value, root = this.#root) {
+      const node = root;
 
-      if(binaryRoot.data !== value) {
+      if(root.data !== value) {
 
-      if(binaryRoot.left === null && binaryRoot.data > value) {       
+      if(root.left === null && root.data > value) {       
         node.left = Node(value);
 
         return true;
       };
 
-      if(binaryRoot.right === null && binaryRoot.data < value) {
+      if(root.right === null && root.data < value) {
         node.right = Node(value);
 
         return true;
       };
       }
 
-      if(binaryRoot.data > value) {
+      if(root.data > value) {
         
         return this.insert(value, node.left);
       };
   
-      if(binaryRoot.data < value) {
+      if(root.data < value) {
   
         return this.insert(value, node.right);
       };
@@ -79,18 +79,18 @@ export default class Tree {
       return false
     };
 
-    remove(value, binaryRoot = this.#root) {
-      const node = binaryRoot;
+    remove(value, root = this.#root) {
+      const node = root;
     
-      if(binaryRoot !== null && binaryRoot.data === value) {
+      if(root !== null && root.data === value) {
         // if the given value is a leaf node
-        if(binaryRoot.left === null && binaryRoot.right === null) {
+        if(root.left === null && root.right === null) {
           node.data = null;
 
           return true;
         };
         // if the given values right subtree is null
-        if(binaryRoot.right === null) {
+        if(root.right === null) {
           // if the node's left subtrees left are not null
           // point it to as the new node's left
           if(node.left !== null) {
@@ -106,7 +106,7 @@ export default class Tree {
           return true;
         };
         // right subtree
-        if(binaryRoot.left === null) {
+        if(root.left === null) {
           if(node.right !== null) {
             node.data = node.right.data;
             node.right = node.right.right;
@@ -120,7 +120,7 @@ export default class Tree {
           return true;
         };
         // both subtree are not null
-        if(binaryRoot.left !== null && binaryRoot.right !== null) {
+        if(root.left !== null && root.right !== null) {
           let predecessor = node;
           let successor = node.right;
 
@@ -147,13 +147,13 @@ export default class Tree {
       };
 
       // recursion to traverse the tree till we reach the given value;
-      if(binaryRoot !== null) {
-        if(binaryRoot.data > value) {
+      if(root !== null) {
+        if(root.data > value) {
 
           return this.remove(value, node.left);
         };
   
-        if(binaryRoot.data < value) {
+        if(root.data < value) {
   
           return this.remove(value, node.right);
         }
@@ -253,13 +253,13 @@ export default class Tree {
       return array;
     };
 
-    levelOrderIteration(callback, binaryRoot = this.#root) {
-      if(binaryRoot === null) return null;
+    levelOrderIteration(callback, root = this.#root) {
+      if(root === null) return null;
 
       if(typeof callback === "function") {
         const queue = [];
         // let array = [];
-        queue.push(binaryRoot);
+        queue.push(root);
 
         while(queue.length) {
           const current = queue[0];
@@ -285,7 +285,7 @@ export default class Tree {
       const queue = [];
       const array = [];
 
-      queue.push(binaryRoot);
+      queue.push(root);
 
       while(queue.length) {
         const current = queue[0];
@@ -309,91 +309,91 @@ export default class Tree {
       return array;
     };
 
-    inOrder(callback, binaryRoot =this.#root, array = []) {
+    inOrder(callback, root =this.#root, array = []) {
       if(typeof callback === "function") {
-        if(binaryRoot === null) {
+        if(root === null) {
 
-          return binaryRoot;
+          return root;
         };
 
-        this.inOrder(callback, binaryRoot.left, array);
+        this.inOrder(callback, root.left, array);
 
-        callback(binaryRoot);
+        callback(root);
         
-        this.inOrder(callback, binaryRoot.right, array);
+        this.inOrder(callback, root.right, array);
 
         return true;
       };
 
       
-      if(binaryRoot === null) {
+      if(root === null) {
         
-        return binaryRoot
+        return root
       };
       
-      this.inOrder(callback, binaryRoot.left, array);
+      this.inOrder(callback, root.left, array);
     
-      array.push(binaryRoot.data)
+      array.push(root.data)
 
-      this.inOrder(callback, binaryRoot.right, array);
+      this.inOrder(callback, root.right, array);
 
 
       return array
     };
 
-    preOrder(callback, binaryRoot = this.#root, array = []) {
+    preOrder(callback, root = this.#root, array = []) {
       if(typeof callback === "function") {
-        if(binaryRoot === null) {
+        if(root === null) {
 
-          return binaryRoot;
+          return root;
         };
 
-        callback(binaryRoot);
+        callback(root);
 
-        this.preOrder(callback, binaryRoot.left, array);
-        this.preOrder(callback, binaryRoot.right, array);
+        this.preOrder(callback, root.left, array);
+        this.preOrder(callback, root.right, array);
 
         return true;
       };
 
-      if(binaryRoot === null) {
+      if(root === null) {
      
-        return binaryRoot;
+        return root;
       };
       
-      array.push(binaryRoot.data);
+      array.push(root.data);
 
-      this.preOrder(callback, binaryRoot.left, array);
-      this.preOrder(callback, binaryRoot.right, array);
+      this.preOrder(callback, root.left, array);
+      this.preOrder(callback, root.right, array);
 
       return array;
     };
 
-    postOrder(callback, binaryRoot = this.#root, array = []) {
+    postOrder(callback, root = this.#root, array = []) {
       if(typeof callback === "function") {
-        if(binaryRoot === null) {
+        if(root === null) {
 
-          return binaryRoot;
+          return root;
         };
 
-        this.postOrder(callback, binaryRoot.left, array);
-        this.postOrder(callback, binaryRoot.right, array);
+        this.postOrder(callback, root.left, array);
+        this.postOrder(callback, root.right, array);
 
-        callback(binaryRoot);
+        callback(root);
 
         return true
       };
 
-      if(binaryRoot === null) {
+      if(root === null) {
 
-        return binaryRoot;
+        return root;
       };
 
-      this.postOrder(callback, binaryRoot.left, array);
-      this.postOrder(callback, binaryRoot.right, array);
+      this.postOrder(callback, root.left, array);
+      this.postOrder(callback, root.right, array);
 
      
-      array.push(binaryRoot.data);
+      array.push(root.data);
 
       return array;
     };
@@ -460,9 +460,6 @@ export default class Tree {
     const left = this.isBalanced(root.left);
     const right = this.isBalanced(root.right);
   
- 
-
-    
     if(left === false || right === false) {
       console.log("node", root)
  
