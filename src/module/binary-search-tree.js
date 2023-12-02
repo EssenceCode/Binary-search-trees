@@ -408,15 +408,18 @@ export default class Tree {
       const right = this.height(node.right);
 
       const calcHeight = Math.max(left, right) + 1;
-
+      // console.log("node", node, "calcHeight", left);
+      // console.log("node", node,"rightTree", right);
+      // console.log("node", node, "height", calcHeight)
+      
       return calcHeight;
     };
 
     // the depth of the given node is just the number of recursion it took to get there.
     depth(node, root = this.#root, maxDepth = 0) {
-      if(root === null) {
+      if(root === null || node === false) {
         
-        return null;
+        return - 1;
       };
      
       if(node === root) {
@@ -425,13 +428,51 @@ export default class Tree {
         return maxDepth;
       };
       // console.log(`depth of ${root.data} is ${maxDepth}`)
-
+      // console.log("node", root, "depth", maxDepth)
       const left = this.depth(node, root.left, maxDepth + 1)
       const right = this.depth(node, root.right, maxDepth + 1)
+     
 
+      
       const calcDepth = Math.max(left, right);
     
       return calcDepth;
-    }
+    };
+
+    isBalanced(root = this.#root) {
+      if(root === null) return true;
+      const leftHeight= this.height(root.left);
+      const rightHeight = this.height(root.right);
+
+      const calcHeightDiff = Math.abs(leftHeight - rightHeight)
+      console.log("root node", root)
+      console.log("left node", root.left, "height",leftHeight)
+      console.log("right node", root.right, "height", rightHeight,)
+      
+      console.log("difference", calcHeightDiff)
+
+      if(calcHeightDiff > 1) {
+    
+        
+        return false
+      };
+
+    const left = this.isBalanced(root.left);
+    const right = this.isBalanced(root.right);
+  
+ 
+
+    
+    if(left === false || right === false) {
+      console.log("node", root)
+ 
+      return false;
+    };
+
+
+    return true;
+    };
+
+  
 };
 
