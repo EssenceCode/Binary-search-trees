@@ -9,29 +9,29 @@ function Node(data = null, left = null, right = null) {
     };
 };
 
-export function buildTree(array, filteredSortedArray = MergeSort(array), start = 0, end = filteredSortedArray.length - 1) { 
-    if(start > end) return null; 
-   
-    const mid = Math.floor((start + end) / 2);
-    const root = Node(filteredSortedArray[mid]);
-  
-    
-    root.left = buildTree(array, filteredSortedArray, start, mid - 1);
-    root.right = buildTree(array, filteredSortedArray, mid + 1, end);
-
-    return root;
-};
-
 export default class Tree {
     #root;
 
     constructor(array) {
-        this.#root = buildTree(array);
+        this.#root = Tree.buildTree(array);
     };
     
     get root() {
       return this.#root;
     };
+
+    static buildTree(array, filteredSortedArray = MergeSort(array), start = 0, end = filteredSortedArray.length - 1) { 
+      if(start > end) return null; 
+     
+      const mid = Math.floor((start + end) / 2);
+      const root = Node(filteredSortedArray[mid]);
+    
+      
+      root.left = this.buildTree(array, filteredSortedArray, start, mid - 1);
+      root.right = this.buildTree(array, filteredSortedArray, mid + 1, end);
+  
+      return root;
+  };
 
     prettyPrint(node, prefix = "", isLeft = true){
       if (this.node === null) {
@@ -197,63 +197,7 @@ export default class Tree {
       return current;
     };
 
-    levelOrder(callback, queue = [this.#root], array = []) {
-      if(typeof callback === "function") {
-
-        const current = queue[0];
-        
-        callback(current)
-
-        // array.push(callback(current))
-
-
-        if(current.left !== null) {
-
-          queue.push(current.left);
-        };
-
-        if(current.right !== null) {
-
-          queue.push(current.right);
-        };
-        
-        queue.shift();
-
-        if(queue.length) {
-          
-          return this.levelOrder(callback, queue, array);
-        }; 
-
-        // return array;
-
-        return true;
-      };
-      
-      const current = queue[0];
-      
-      array.push(current.data);
-
-      if(current.left !== null) {
-
-        queue.push(current.left);
-      };
-
-      if(current.right !== null) {
-
-        queue.push(current.right);
-      };
-
-      queue.shift();
-
-      if(queue.length) {
-        
-        return this.levelOrder(callback, queue, array);
-      }; 
-
-      return array;
-    };
-
-    levelOrderIteration(callback, root = this.#root) {
+    levelOrder(callback, root = this.#root) {
       if(root === null) return null;
 
       if(typeof callback === "function") {
@@ -305,6 +249,62 @@ export default class Tree {
         queue.shift();
       };
 
+
+      return array;
+    };
+
+    levelOrderRecursion(callback, queue = [this.#root], array = []) {
+      if(typeof callback === "function") {
+
+        const current = queue[0];
+        
+        callback(current)
+
+        // array.push(callback(current))
+
+
+        if(current.left !== null) {
+
+          queue.push(current.left);
+        };
+
+        if(current.right !== null) {
+
+          queue.push(current.right);
+        };
+        
+        queue.shift();
+
+        if(queue.length) {
+          
+          return this.levelOrder(callback, queue, array);
+        }; 
+
+        // return array;
+
+        return true;
+      };
+      
+      const current = queue[0];
+      
+      array.push(current.data);
+
+      if(current.left !== null) {
+
+        queue.push(current.left);
+      };
+
+      if(current.right !== null) {
+
+        queue.push(current.right);
+      };
+
+      queue.shift();
+
+      if(queue.length) {
+        
+        return this.levelOrder(callback, queue, array);
+      }; 
 
       return array;
     };
@@ -445,11 +445,11 @@ export default class Tree {
       const rightHeight = this.height(root.right);
 
       const calcHeightDiff = Math.abs(leftHeight - rightHeight)
-      console.log("root node", root)
-      console.log("left node", root.left, "height",leftHeight)
-      console.log("right node", root.right, "height", rightHeight,)
+      // console.log("root node", root)
+      // console.log("left node", root.left, "height",leftHeight)
+      // console.log("right node", root.right, "height", rightHeight,)
       
-      console.log("difference", calcHeightDiff)
+      // console.log("difference", calcHeightDiff)
 
       if(calcHeightDiff > 1) {
     
@@ -461,7 +461,7 @@ export default class Tree {
     const right = this.isBalanced(root.right);
   
     if(left === false || right === false) {
-      console.log("node", root)
+      // console.log("node", root)
  
       return false;
     };
@@ -470,6 +470,19 @@ export default class Tree {
     return true;
     };
 
-  
+    reBalance(root = this.#root) {
+      if(this.isBalanced() === true) {
+
+        console.log("tree is balanced.");
+        return false;
+      };
+      const getAllNodes = this.inOrder(root);
+      
+      this.#root = Tree.buildTree(getAllNodes);
+
+      console.log("tree is not balanced, rebalancing.");
+
+      return true;
+    };
 };
 
